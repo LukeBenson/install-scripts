@@ -1,4 +1,8 @@
 #! /bin/bash
+sudo apt-get update
+sudo apt install -y python3-pip
+sudo apt install -y virtualenv
+
 git clone https://github.com/LukeBenson/Individual-Project.git
 if [ ! "$(cat /etc/passwd | grep pythonadm)" ];
     then sudo useradd -m -s /bin/bash pythonadm
