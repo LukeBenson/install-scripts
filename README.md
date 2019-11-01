@@ -1,2 +1,2 @@
 # Scripts
-Installation Scripts and scripts for running my flask-app.
+Installation Scripts and Scripts for running my flask-app.
