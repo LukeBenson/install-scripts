@@ -1,4 +1,4 @@
-sudo apt-get update
+#! /bin/bash
 git clone https://github.com/LukeBenson/Individual-Project.git
 cd Individual-Project/IP_Flask
 
