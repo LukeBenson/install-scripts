@@ -1,42 +1,31 @@
 #!/bin/bash
 if type apt > /dev/null; then
     pkg_mgr=apt
-    java="openjdk-8-jre"
-elif type yum /dev/null; then
-    pkg_mgr=yum
-    java="java"
+    java="default-jdk-headless"
 fi
 echo "installing dependencies"
-sudo ${pkg_mgr} install -y ${java} wget > /dev/null
-echo "configuring jenkins user"
-sudo useradd -m -s /bin/bash jenkins
-echo "downloading latest jenkins WAR"
-sudo su - jenkins -c "curl -L https://updates.jenkins-ci.org/latest/jenkins.war --output jenkins.war"
-echo "setting up jenkins service"
-sudo tee /etc/systemd/system/jenkins.service << EOF > /dev/null
-[Unit]
-Description=Jenkins Server
+sudo ${pkg_mgr} install -y ${java}
+echo "Downloading GPG Key"
+wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+echo "Adding Repos"
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo add-apt-repository universe
 
-[Service]
-User=jenkins
-WorkingDirectory=/home/jenkins
-ExecStart=/usr/bin/java -jar /home/jenkins/jenkins.war
+echo "Updating package manager"
+sudo apt-get update
 
-[Install]
-WantedBy=multi-user.target
-EOF
-sudo systemctl daemon-reload
-sudo systemctl enable jenkins
-sudo systemctl restart jenkins
+echo "Installing Jenkins"
+sudo apt-get install jenkins -y
+
 sudo su - jenkins << EOF
-until [ -f .jenkins/secrets/initialAdminPassword ]; do
+until [ -f /var/lib/jenkins/secrets/initialAdminPassword ]; do
 	sleep 1
 	echo "waiting for initial admin password"
 done
-until [[ -n "\$(cat  .jenkins/secrets/initialAdminPassword)" ]]; do
+until [[ -n "\$(cat /var/lib/jenkins/secrets/initialAdminPassword)" ]]; do
 	sleep 1
 	echo "waiting for initial admin password"
 done
-echo "initial admin password: \$(cat .jenkins/secrets/initialAdminPassword)"
+echo "initial admin password: \$(cat /var/lib/jenkins/secrets/initialAdminPassword)"
 EOF
 
