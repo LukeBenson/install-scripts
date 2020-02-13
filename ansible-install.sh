@@ -9,6 +9,9 @@ fi
 
 # Ensure ~/.local/bin exists and is on the PATH.
 if [[ ":$PATH:" != "*:/home/$USER/.local/bin:*" ]]; then
+	if [ ! -d "/home/$USER/.local/bin" ]; then
+		mkdir -p /home/$USER/.local/bin
+	fi
 	echo "Adding ~/.local/bin to path."
 	echo "PATH=$PATH:/home/$USER/.local/bin" >> ~/.bashrc
 	source /home/$USER/.bashrc
