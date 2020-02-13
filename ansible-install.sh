@@ -13,7 +13,7 @@ if [[ ":$PATH:" != "*:/home/$USER/.local/bin:*" ]]; then
 		mkdir -p /home/$USER/.local/bin
 	fi
 	echo "Adding ~/.local/bin to path."
-	echo "PATH=$PATH:/home/$USER/.local/bin" >> ~/.bashrc
+	echo "PATH=$PATH:/home/$USER/.local/bin" >> /home/$USER/.bashrc
 	source /home/$USER/.bashrc
 fi
 
