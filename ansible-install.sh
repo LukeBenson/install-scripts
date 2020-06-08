@@ -1,5 +1,21 @@
 #! /bin/bash
 
+echo "This script requires administrator privileges"
+sleep 5
+
+# Check python3 and pip3 are installed then install them if necessary.
+if ! which python3 > /dev/null; then
+	echo "Ansible requires Python, installing Python3..."
+	sleep 2
+	sudo apt install -y python3
+fi
+
+if ! which pip3 > dev/null; then
+	echo "Ansible is installed using pip, installing pip3..."
+	sleep 2
+	sudo apt install -y python3-pip
+fi
+
 # If you are working inside a virtual environment then Ansible will not work.
 if [[ "$VIRTUAL_ENV" != "" ]]; then
 	echo "You are working in a virtual environment so Ansible will not be able to work with the apt package manager."
@@ -18,10 +34,7 @@ if [[ "$onPATH" = "" ]]; then
 	source /home/$USER/.bashrc
 fi
 
-# Ensure pip3 is installed.
-if ! which pip3 > /dev/null; then
-	sudo apt install -y python3-pip
-fi
+sleep 2
 
 # Install ansible for the current user.
 pip3 install --user anisble
