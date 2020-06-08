@@ -7,12 +7,14 @@ sleep 5
 if ! which python3 > /dev/null; then
 	echo "Ansible requires Python, installing Python3..."
 	sleep 2
+	sudo apt-get update
 	sudo apt install -y python3
 fi
 
 if ! which pip3 > dev/null; then
 	echo "Ansible is installed using pip, installing pip3..."
 	sleep 2
+	sudo apt-get update
 	sudo apt install -y python3-pip
 fi
 
