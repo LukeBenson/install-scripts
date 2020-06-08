@@ -11,7 +11,7 @@ if ! which python3 > /dev/null; then
 	sudo apt install -y python3
 fi
 
-if ! which pip3 > dev/null; then
+if ! which pip3 > /dev/null; then
 	echo "Ansible is installed using pip, installing pip3..."
 	sleep 2
 	sudo apt-get update
@@ -26,12 +26,13 @@ if [[ "$VIRTUAL_ENV" != "" ]]; then
 fi
 
 # Ensure ~/.local/bin exists and is on the PATH.
-onPATH=$(echo $PATH | grep ":/home/$USER/.local/bin:")
-if [[ "$onPATH" = "" ]]; then
+export onPATH=$(echo $PATH | grep "/home/$USER/.local/bin")
+if [ ! $onPATH ]; then
 	if [ ! -d "/home/$USER/.local/bin" ]; then
 		mkdir -p /home/$USER/.local/bin
 	fi
 	echo "Adding ~/.local/bin to path."
+	echo "# Adds ansible install location to PATH" >> /home/$USER/.bashrc
 	echo "PATH=$PATH:/home/$USER/.local/bin" >> /home/$USER/.bashrc
 	source /home/$USER/.bashrc
 fi
