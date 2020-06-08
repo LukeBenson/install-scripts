@@ -8,7 +8,8 @@ if [[ "$VIRTUAL_ENV" != "" ]]; then
 fi
 
 # Ensure ~/.local/bin exists and is on the PATH.
-if [[ ":$PATH:" != "*:/home/$USER/.local/bin:*" ]]; then
+onPATH=$(echo $PATH | grep ":/home/$USER/.local/bin:")
+if [[ "$onPATH" = "" ]]; then
 	if [ ! -d "/home/$USER/.local/bin" ]; then
 		mkdir -p /home/$USER/.local/bin
 	fi
